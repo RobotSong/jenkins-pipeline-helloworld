@@ -36,8 +36,7 @@ timeout(time: 600, unit: 'SECONDS') {
                             def customImage = docker.build("${hub}/${project_name}/${pom.artifactId}:${pom.version}")
                             echo "推送镜像"
                             customImage.push()
-                            echo "删除镜像"
-                            sh "docker rmi ${hub}/${project_name}/${pom.artifactId}:${pom.version}"
+                            echo "获取镜像的sha256"
                             // 获取远程镜像仓库中的 sha256 的值
                             def hubSha = sh "docker inspect ${hub}/${project_name}/${pom.artifactId}:${pom.version} -f '{{index .RepoDigests 0}}'"
                             // 读取 yaml 文件
@@ -47,6 +46,8 @@ timeout(time: 600, unit: 'SECONDS') {
                             // 先删除文件
                             sh 'rm -f deploy.yaml'
                             writeYaml file: 'deploy.yaml', data: deploy
+                            echo "删除镜像"
+                            sh "docker rmi ${hub}/${project_name}/${pom.artifactId}:${pom.version}"
                         }
                     }
                 }
