@@ -2,6 +2,7 @@
 // jenkins slave 执行流水线任务
 timeout(time: 600, unit: 'SECONDS') {
     try{
+        // 代理名称，填写系统设置中设置的 Cloud 中 Template 模板的 label
         def label = "jnlp-agent"
         podTemplate(label: label,cloud: 'kubernetes' ){
             node (label) {
