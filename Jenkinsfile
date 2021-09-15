@@ -8,7 +8,8 @@ timeout(time: 600, unit: 'SECONDS') {
             node (label) {
                 stage('Git阶段'){
                     echo "Git 阶段"
-                    git branch: "master" ,changelog: true , url: "https://gogs.gxsgys.com/chenyongguang/jenkins-pipeline-helloworld.git", credentialsId: "GitAccount"
+                    // credentialsId: "GitAccount" ， 例子是开源项目，所以不需要 credentialsId
+                    git branch: "master" ,changelog: true , url: "git@github.com:RobotSong/jenkins-pipeline-helloworld.git"
                 }
                 stage('Maven阶段'){
                     echo "Maven 阶段"
