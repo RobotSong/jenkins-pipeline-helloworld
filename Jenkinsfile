@@ -53,7 +53,8 @@ timeout(time: 600, unit: 'SECONDS') {
                 }
                 stage('kubernetes部署阶段'){
                     container('helm-kubectl') {
-                        withKubeConfig([serverUrl: "https://kubernetes.default.svc.cluster.local"]) {
+                        echo "join kubernetes cluster"
+                        withKubeConfig([credentialsId: "kubernetes-token", serverUrl: "https://kubernetes.default.svc.cluster.local"]) {
                             // 使用 kubectl 命令部署
                             echo "尝试获取 nodes"
                             sh "kubectl get nodes"
