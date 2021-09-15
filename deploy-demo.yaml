@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld
+  namespace: dev      #命名空间
+  labels:
+    app: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+        - name: shop-api
+          # dockerhub.gxsgys.com/jenkins/jenkins-pipeline-helloworld:1.0-SNAPSHOT
+          image: dockerhub.gxsgys.com/jenkins/jenkins-pipeline-helloworld:1.0-SNAPSHOT
+          ports:
+            - containerPort: 8080
