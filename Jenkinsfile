@@ -37,8 +37,11 @@ timeout(time: 600, unit: 'SECONDS') {
                             echo "推送镜像"
                             customImage.push()
                             echo "获取镜像的sha256"
+                            // 设置环境变量名称
+                            env.IMAGES_SHA = "${hub}/${project_name}/${pom.artifactId}:${pom.version}"
+                            echo "images name: $IMAGES_SHA"
                             // 获取远程镜像仓库中的 sha256 的值
-                            def hubSha = sh "docker inspect ${hub}/${project_name}/${pom.artifactId}:${pom.version} -f '{{index .RepoDigests 0}}'"
+                            def hubSha = "${sh(script: 'docker inspect $IMAGES_SHA -f \'{{index .RepoDigests 0}}\'', returnStdout: true).trim()}"
                             // 读取 yaml 文件
                             def deploy = readYaml file: './deploy-demo.yaml'
                             // 设置镜像 为 sha256 值，以便更新
